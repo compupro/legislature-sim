@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
+using System.Reflection;
 
 namespace LegislatureSim
 {
     static class Constants
     {
         public static readonly Random rng = new Random();
+        public static readonly Assembly assembly = Assembly.GetExecutingAssembly();
 
         public static float Distance(Tuple<float, float> t1, Tuple<float, float> t2)
         {
@@ -23,6 +26,22 @@ namespace LegislatureSim
         {
             int numSeats = 20;
             int numParties = 3;
+
+            using (Stream stream = Constants.assembly.GetManifestResourceStream("EnAdjectives"))
+            using (StreamReader reader = new StreamReader(stream))
+            {
+                string result = reader.ReadToEnd();
+                string[] adjectives = result.Split();
+            }
+
+            using (Stream stream = Constants.assembly.GetManifestResourceStream("EnNouns"))
+            using (StreamReader reader = new StreamReader(stream))
+            {
+                string result = reader.ReadToEnd();
+                string[] nouns = result.Split();
+                Console.WriteLine(nouns[0]);
+            }
+
 
             Party[] parties = new Party[numParties];
             for (int party = 0; party < numParties; party++)
@@ -79,10 +98,10 @@ namespace LegislatureSim
         {
             this.name = name;
             this.compass = compass;
-            chooseParty(partyChoices);
+            ChooseParty(partyChoices);
         }
 
-        private void chooseParty(Party[] partyChoices)
+        private void ChooseParty(Party[] partyChoices)
         {
             Party bestParty = new Independent(this.compass);
             float bestDistance = float.MaxValue;
@@ -108,7 +127,6 @@ namespace LegislatureSim
     {
         public string name;
         public Tuple<float, float> compass;
-        public List<Legislator> members;
 
         public Party(string name, Tuple<float, float> compass)
         {
@@ -141,7 +159,11 @@ namespace LegislatureSim
 
         public void HoldSession()
         {
-            //TODO: this stuff
+            Legislator advocate = this.legislators[Constants.rng.Next(this.legislators.Length)];
+            foreach (Legislator legislator in this.legislators)
+            {
+                
+            }
         }
     }
 }
