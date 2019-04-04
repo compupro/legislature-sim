@@ -27,21 +27,23 @@ namespace LegislatureSim
             int numSeats = 20;
             int numParties = 3;
 
-            using (Stream stream = Constants.assembly.GetManifestResourceStream("EnAdjectives"))
+            var a = Constants.assembly.GetManifestResourceNames();
+
+            string[] adjectives;
+            using (Stream stream = Constants.assembly.GetManifestResourceStream("LegislatureSim.Resources.enAdjectives.txt"))
             using (StreamReader reader = new StreamReader(stream))
             {
                 string result = reader.ReadToEnd();
-                string[] adjectives = result.Split();
+                adjectives = result.Split();
             }
 
-            using (Stream stream = Constants.assembly.GetManifestResourceStream("EnNouns"))
+            string[] nouns;
+            using (Stream stream = Constants.assembly.GetManifestResourceStream("LegislatureSim.Resources.enNouns.txt"))
             using (StreamReader reader = new StreamReader(stream))
             {
                 string result = reader.ReadToEnd();
-                string[] nouns = result.Split();
-                Console.WriteLine(nouns[0]);
+                nouns = result.Split();
             }
-
 
             Party[] parties = new Party[numParties];
             for (int party = 0; party < numParties; party++)
