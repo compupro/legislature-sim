@@ -12,6 +12,8 @@ namespace LegislatureSim
     {
         public static readonly Random rng = new Random();
         public static readonly Assembly assembly = Assembly.GetExecutingAssembly();
+        public static string[] adjectives;
+        public static string[] nouns;
 
         public static float Distance(Tuple<float, float> t1, Tuple<float, float> t2)
         {
@@ -27,22 +29,18 @@ namespace LegislatureSim
             int numSeats = 20;
             int numParties = 3;
 
-            var a = Constants.assembly.GetManifestResourceNames();
-
-            string[] adjectives;
             using (Stream stream = Constants.assembly.GetManifestResourceStream("LegislatureSim.Resources.enAdjectives.txt"))
             using (StreamReader reader = new StreamReader(stream))
             {
                 string result = reader.ReadToEnd();
-                adjectives = result.Split();
+                Constants.adjectives = result.Split();
             }
 
-            string[] nouns;
             using (Stream stream = Constants.assembly.GetManifestResourceStream("LegislatureSim.Resources.enNouns.txt"))
             using (StreamReader reader = new StreamReader(stream))
             {
                 string result = reader.ReadToEnd();
-                nouns = result.Split();
+                Constants.nouns = result.Split();
             }
 
             Party[] parties = new Party[numParties];
@@ -67,6 +65,8 @@ namespace LegislatureSim
             {
                 Console.WriteLine(legislator);
             }
+
+            legislature.HoldSession();
 
             Console.ReadLine();
         }
@@ -166,10 +166,20 @@ namespace LegislatureSim
         public void HoldSession()
         {
             Legislator advocate = this.legislators[Constants.rng.Next(this.legislators.Length)];
+            var billCompass = advocate.compass; //TEMP: TESTING PURPOSES ONLY
+            var billName = GenerateBillName();
+            Console.WriteLine(billName);
             foreach (Legislator legislator in this.legislators)
             {
                 
             }
+        }
+
+        private string GenerateBillName()
+        {
+            string adjective = Constants.adjectives[Constants.rng.Next(Constants.adjectives.Length)];
+            string noun = Constants.nouns[Constants.rng.Next(Constants.nouns.Length)]; //TODO: find out why this sometimes becomes empty
+            return adjective  + " " + noun + " bill";
         }
     }
 }
