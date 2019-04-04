@@ -73,7 +73,11 @@ namespace LegislatureSim
 
         private static Tuple<float, float> GenerateCompass()
         {
-            return Tuple.Create((float)Constants.rng.NextDouble()*20, (float)Constants.rng.NextDouble()*20);
+            float x = (float)Constants.rng.NextDouble() * 20;
+            x -= 10;
+            float y = (float)Constants.rng.NextDouble() * 20;
+            y -= 10;
+            return Tuple.Create(x, y);
         }
 
         private static string GenerateName(int maxLength, string prefix = "", string suffix = "")
