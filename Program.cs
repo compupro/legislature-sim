@@ -174,9 +174,12 @@ namespace LegislatureSim
         public void HoldSession()
         {
             Legislator advocate = this.legislators[Constants.rng.Next(this.legislators.Length)];
-            var billCompass = advocate.compass; //TEMP: TESTING PURPOSES ONLY
-            var billName = Constants.ToTitleCase(GenerateBillName());
-            Console.WriteLine(billName);
+            var billCompass = Tuple.Create(advocate.compass.Item1 + Variance(5), advocate.compass.Item2 + Variance(5));
+            var billName = GenerateBillName();
+
+            Console.WriteLine(new String('-', 10));
+            Console.WriteLine(String.Format("{0} is introducing the {1}.", advocate, billName));
+
             foreach (Legislator legislator in this.legislators)
             {
                 
@@ -187,7 +190,13 @@ namespace LegislatureSim
         {
             string adjective = Constants.adjectives[Constants.rng.Next(Constants.adjectives.Length)];
             string noun = Constants.nouns[Constants.rng.Next(Constants.nouns.Length)];
-            return adjective  + " " + noun + " bill";
+            return Constants.ToTitleCase(adjective  + " " + noun + " bill");
+        }
+
+        private float Variance(float absoluteValue)
+        {
+            var a = (float) (Constants.rng.NextDouble()*absoluteValue*2)-absoluteValue;
+            return a;
         }
     }
 }
