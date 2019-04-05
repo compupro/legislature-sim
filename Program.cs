@@ -178,7 +178,7 @@ namespace LegislatureSim
         private string GenerateBillName()
         {
             string adjective = Constants.adjectives[Constants.rng.Next(Constants.adjectives.Length)];
-            string noun = Constants.nouns[Constants.rng.Next(Constants.nouns.Length)]; //TODO: find out why this sometimes becomes empty
+            string noun = Constants.nouns[Constants.rng.Next(Constants.nouns.Length)];
             return adjective  + " " + noun + " bill";
         }
     }
