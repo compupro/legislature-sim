@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using System.Reflection;
+using System.Text.RegularExpressions;
 
 namespace LegislatureSim
 {
@@ -18,6 +19,15 @@ namespace LegislatureSim
         public static float Distance(Tuple<float, float> t1, Tuple<float, float> t2)
         {
             return (float) Math.Sqrt(Math.Pow(t2.Item1-t1.Item1, 2) + Math.Pow(t2.Item2 - t1.Item2, 2));
+        }
+
+        public static string ToTitleCase(string str)
+        {
+            return Regex.Replace(str, @"\b[a-z]", delegate (Match m)
+                {
+                    return m.Value.ToUpper();
+                }
+            );
         }
     }
 
@@ -167,7 +177,7 @@ namespace LegislatureSim
         {
             Legislator advocate = this.legislators[Constants.rng.Next(this.legislators.Length)];
             var billCompass = advocate.compass; //TEMP: TESTING PURPOSES ONLY
-            var billName = GenerateBillName();
+            var billName = Constants.ToTitleCase(GenerateBillName());
             Console.WriteLine(billName);
             foreach (Legislator legislator in this.legislators)
             {
