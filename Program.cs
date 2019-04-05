@@ -95,12 +95,10 @@ namespace LegislatureSim
             string name = prefix;
             for (int letter = 0; letter < Constants.rng.Next(3, maxLength); letter++)
             {
-                string nextLetter = ((letter % 2 != 0) ? "bcdfghjklmnpqrstvwxyz"[Constants.rng.Next(21)] : "aeiou"[Constants.rng.Next(5)]).ToString();
-                nextLetter = (letter == 0) ? nextLetter.ToUpper() : nextLetter;
-                name += nextLetter;
+                name += ((letter % 2 != 0) ? "bcdfghjklmnpqrstvwxyz"[Constants.rng.Next(21)] : "aeiou"[Constants.rng.Next(5)]).ToString();
             }
             name += suffix;
-            return name;
+            return Constants.ToTitleCase(name);
         }
     }
 
