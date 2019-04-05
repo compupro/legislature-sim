@@ -36,7 +36,7 @@ namespace LegislatureSim
 
         static void Main(string[] args)
         {
-            int numSeats = 20;
+            int numSeats = 100;
             int numParties = 3;
 
             using (Stream stream = Constants.assembly.GetManifestResourceStream("LegislatureSim.Resources.enAdjectives.txt"))
@@ -182,7 +182,16 @@ namespace LegislatureSim
 
             foreach (Legislator legislator in this.legislators)
             {
-                
+                if (Constants.Distance(legislator.compass, billCompass) > 10) //TODO: Make this behavior more random
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.Write("#");
+                }
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.Write("#");
+                }
             }
         }
 
