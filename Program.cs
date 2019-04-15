@@ -174,7 +174,7 @@ namespace LegislatureSim
         public void HoldSession()
         {
             Legislator advocate = this.legislators[Constants.rng.Next(this.legislators.Length)];
-            var billCompass = Tuple.Create(advocate.compass.Item1 + Variance(5), advocate.compass.Item2 + Variance(5));
+            var billCompass = Tuple.Create(advocate.compass.Item1 + Fuzziness(5), advocate.compass.Item2 + Fuzziness(5));
             var billName = GenerateBillName();
 
             Console.WriteLine(new String('-', 10));
@@ -182,7 +182,7 @@ namespace LegislatureSim
 
             foreach (Legislator legislator in this.legislators)
             {
-                if (Constants.Distance(legislator.compass, billCompass) > 10) //TODO: Make this behavior more random
+                if (Constants.Distance(legislator.compass, billCompass) > 8 + Fuzziness(5))
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.Write("#");
@@ -202,9 +202,10 @@ namespace LegislatureSim
             return Constants.ToTitleCase(adjective  + " " + noun + " bill");
         }
 
-        private float Variance(float absoluteValue)
+        private float Fuzziness(float absoluteValue)
         {
-            var a = (float) (Constants.rng.NextDouble()*absoluteValue*2)-absoluteValue;
+            var a = (float) (Constants.rng.NextDouble()*absoluteValue);
+            a = (Constants.rng.Next() % 2 == 0) ? -a : a;
             return a;
         }
     }
