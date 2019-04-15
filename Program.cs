@@ -76,9 +76,11 @@ namespace LegislatureSim
                 Console.WriteLine(legislator);
             }
 
-            legislature.HoldSession();
-
-            Console.ReadLine();
+            while (true)
+            {
+                legislature.HoldSession();
+                Console.ReadLine();
+            }
         }
 
         private static Tuple<float, float> GenerateCompass()
@@ -180,19 +182,33 @@ namespace LegislatureSim
             Console.WriteLine(new String('-', 10));
             Console.WriteLine(String.Format("{0} is introducing the {1}.", advocate, billName));
 
+            var aye = 1; //1 for the advocate
+            var nay = 0;
+            var abstain = 0;
             foreach (Legislator legislator in this.legislators)
             {
                 if (Constants.Distance(legislator.compass, billCompass) > 8 + Fuzziness(5))
                 {
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.Write("#");
+                    if (Constants.rng.Next() % 2 == 0) {
+                        Console.ForegroundColor = ConsoleColor.Red;
+                        nay++;
+                    } else
+                    {
+                        Console.ForegroundColor = ConsoleColor.Gray;
+                        abstain++;
+                    }
                 }
                 else
                 {
                     Console.ForegroundColor = ConsoleColor.Green;
-                    Console.Write("#");
+                    aye++;
                 }
+                Console.Write("#");
+                Console.ForegroundColor = ConsoleColor.Gray;
             }
+
+            Console.Write(String.Format("\n{0} AYE {1} NAY {2} ABSTAIN, motion ", aye, nay, abstain));
+            Console.WriteLine(aye > nay ? "passes" : "fails");
         }
 
         private string GenerateBillName()
