@@ -166,6 +166,10 @@ namespace LegislatureSim
 
     class Legislature
     {
+        private int passed = 0;
+        private int failed = 0;
+        private int proposed = 0;
+
         public Legislator[] legislators;
 
         public Legislature(Legislator[] legislators)
@@ -175,6 +179,7 @@ namespace LegislatureSim
 
         public void HoldSession()
         {
+            proposed++;
             Legislator advocate = this.legislators[Constants.rng.Next(this.legislators.Length)];
             var billCompass = Tuple.Create(advocate.compass.Item1 + Fuzziness(5), advocate.compass.Item2 + Fuzziness(5));
             var billName = GenerateBillName();
@@ -208,7 +213,21 @@ namespace LegislatureSim
             }
 
             Console.Write(String.Format("\n{0} AYE {1} NAY {2} ABSTAIN, motion ", aye, nay, abstain));
-            Console.WriteLine(aye > nay ? "passes" : "fails");
+            if (aye > nay)
+            {
+                passed++;
+                Console.WriteLine("passes");
+            } else
+            {
+                failed++;
+                Console.WriteLine("fails");
+            }
+
+            String statisticsPrintout = @"=== Legislature statistics ===
+Bill success percentage: {0}
+Total bills proposed: {1}
+Sessions wasted: {2}";
+            Console.WriteLine(String.Format(statisticsPrintout, ((float)passed/(float)proposed)*100, proposed, failed));
         }
 
         private string GenerateBillName()
