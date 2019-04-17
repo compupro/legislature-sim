@@ -184,7 +184,7 @@ namespace LegislatureSim
             var billCompass = Tuple.Create(advocate.compass.Item1 + Fuzziness(5), advocate.compass.Item2 + Fuzziness(5));
             var billName = GenerateBillName();
 
-            Console.WriteLine(new String('-', 10));
+            Console.WriteLine(String.Format("=== Session {0} ===", proposed));
             Console.WriteLine(String.Format("{0} is introducing the {1}.", advocate, billName));
 
             var aye = 1; //1 for the advocate
