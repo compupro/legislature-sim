@@ -223,7 +223,8 @@ namespace LegislatureSim
                 Console.WriteLine("fails");
             }
 
-            String statisticsPrintout = @"=== Legislature statistics ===
+            Console.WriteLine();
+            String statisticsPrintout = @"Legislature statistics:
 Bill success percentage: {0}
 Total bills proposed: {1}
 Sessions wasted: {2}";
