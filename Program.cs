@@ -70,10 +70,25 @@ namespace LegislatureSim
             }
 
             Legislature legislature = new Legislature(legislators);
-
             foreach (Legislator legislator in legislature.legislators)
             {
                 Console.WriteLine(legislator);
+            }
+
+            var roundedCompassPts = from legislator in legislators select FloorTuple(legislator.compass);
+            for (int y = -10; y < 10; y++)
+            {
+                for (int x = -10; x < 10; x++)
+                {
+                    if (roundedCompassPts.Contains(Tuple.Create((float) x,(float) y)))
+                    {
+                        Console.Write(" #");
+                    } else
+                    {
+                        Console.Write(" ·");
+                    }
+                }
+                Console.WriteLine();
             }
 
             while (true)
@@ -101,6 +116,11 @@ namespace LegislatureSim
             }
             name += suffix;
             return Constants.ToTitleCase(name);
+        }
+
+        private static Tuple<float, float> FloorTuple(Tuple<float, float> tuple)
+        {
+            return Tuple.Create((float)Math.Floor(tuple.Item1), (float)Math.Floor(tuple.Item2));
         }
     }
 
